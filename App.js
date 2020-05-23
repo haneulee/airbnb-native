@@ -3,10 +3,11 @@ import { AppLoading } from "expo";
 import { Asset } from "expo-asset";
 import { Image } from "react-native";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import Gate from "./components/Gate";
-import store from "./redux/store";
+import store, { persistor } from "./redux/store";
 
 
 const cacheImages = images =>
@@ -36,7 +37,9 @@ export default function App() {
   };
   return isReady ? (
     <Provider store={store}>
-      <Gate />
+      <PersistGate persistor={persistor}>
+        <Gate />
+      </PersistGate>
     </Provider>
   ) : (
       <AppLoading
