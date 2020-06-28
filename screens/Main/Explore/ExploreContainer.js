@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import ExplorePresenter from "./ExplorePresenter";
 
-export default ({ getRooms, rooms, page = 1 }) => {
+export default ({ getRooms, rooms, page, increasePage }) => {
+    // useEffect(() => {
+    //     getRooms(1);
+    // }, []);
     useEffect(() => {
         getRooms(page);
-    }, []);
-    return <ExplorePresenter rooms={rooms} />;
+    }, [page]);
+    return <ExplorePresenter rooms={rooms} increasePage={increasePage} />;
 };
