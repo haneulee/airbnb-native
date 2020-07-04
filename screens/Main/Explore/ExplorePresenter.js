@@ -9,9 +9,9 @@ import {
 import RoomCard from "../../../components/RoomCard";
 
 const Container = styled.View`
+  flex: 1;
   justify-content: center;
   align-items: center;
-  flex: 1;
   padding-horizontal: 15px;
 `;
 
@@ -45,7 +45,6 @@ const LoadMoreText = styled.Text`
   font-size: 18px;
   font-weight: 500;
 `;
-
 
 export default ({ rooms, increasePage }) => {
     return (

@@ -3,25 +3,22 @@ import styled from "styled-components/native";
 import RoomCard from "../../../components/RoomCard";
 
 const Container = styled.View`
-  justify-content: center;
-  align-items: center;
-  flex: 1;
   margin-top: 70px;
   padding: 0px 30px;
 `;
-const SV = styled.ScrollView`
-  width: 100%
-`;
+
+const SV = styled.ScrollView``;
 
 const Title = styled.Text`
   font-size: 36px;
   margin-bottom: 10px;
 `;
+
 const NoFavs = styled.Text``;
 
 export default ({ rooms }) => (
     <Container>
-        <Title>Favourites</Title>
+        <Title>Favourites ({rooms.length})</Title>
         <SV
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 50 }}

@@ -6,4 +6,4 @@ export default ({ getFavs, rooms }) => {
         getFavs();
     }, []);
     return <SavedPresenter rooms={rooms} />;
-}
+};

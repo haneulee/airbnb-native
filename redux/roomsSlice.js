@@ -19,18 +19,37 @@ const roomsSlice = createSlice({
             } else {
                 state.explore.rooms = [...state.explore.rooms, ...payload.rooms];
             }
-            // state.explore.page = payload.page;
         },
         increasePage(state, action) {
             state.explore.page += 1;
         },
         setFavs(state, action) {
             state.favs = action.payload;
+        },
+        setFav(state, action) {
+            const {
+                payload: { roomId }
+            } = action;
+            const room = state.explore.rooms.find(room => room.id === roomId);
+            if (room) {
+                if (room.is_fav) {
+                    room.is_fav = false;
+                    state.favs = state.favs.filter(room => room.id !== roomId);
+                } else {
+                    room.is_fav = true;
+                    state.favs = [room, ...state.favs];
+                }
+            }
         }
     }
 });
 
-export const { setExploreRooms, increasePage, setFavs } = roomsSlice.actions;
+export const {
+    setExploreRooms,
+    increasePage,
+    setFavs,
+    setFav
+} = roomsSlice.actions;
 
 export const getRooms = page => async (dispatch, getState) => {
     const {
@@ -43,13 +62,12 @@ export const getRooms = page => async (dispatch, getState) => {
         dispatch(
             setExploreRooms({
                 rooms: results,
-                page,
+                page
             })
         );
     } catch (e) {
         console.warn(e);
     }
 };
-
 
 export default roomsSlice.reducer;
