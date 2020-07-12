@@ -12,6 +12,7 @@ import Room from "../screens/Main/Room";
 import BackBtn from "../components/Auth/BackBtn";
 import { BlurView } from "expo-blur";
 import { StyleSheet } from "react-native";
+import Search from "../screens/Main/Search";
 
 // const Main = createBottomTabNavigator();
 
@@ -79,6 +80,11 @@ export default () => (
                     />
                 )
             }}
+        />
+        <MainNavigator.Screen
+            name="Search"
+            options={{ headerShown: false }}
+            component={Search}
         />
     </MainNavigator.Navigator>
 );

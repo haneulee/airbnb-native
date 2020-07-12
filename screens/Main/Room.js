@@ -123,7 +123,7 @@ export default ({ route: { params }, navigation }) => {
                             altitude: 10 * 200,
                             pitch: 25,
                             heading: 0,
-                            zoom: 10 * 200,
+                            zoom: 10,
                         }}
                         provider={PROVIDER_GOOGLE}
                         zoomEnabled={false}
