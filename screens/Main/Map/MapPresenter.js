@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components/native";
 import { StyleSheet, Dimensions } from "react-native";
-import { connect } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
-import colors from "../../colors";
+import colors from "../../../colors";
 
 const { width, height } = Dimensions.get("screen");
 
 const Container = styled.View`
+  flex: 1;
   justify-content: center;
   align-items: center;
-  flex: 1;
 `;
 
 const ScrollView = styled.ScrollView`
@@ -85,41 +84,23 @@ const RoomMarker = ({ selected, price }) => (
     </MarkerWrapper>
 );
 
-const Map = ({ rooms }) => {
-    const mapRef = useRef();
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const onScroll = e => {
-        const {
-            nativeEvent: {
-                contentOffset: { x }
-            }
-        } = e;
-        const position = Math.abs(Math.round(x / width));
-        setCurrentIndex(position);
-    };
-    useEffect(() => {
-        if (currentIndex !== 0) {
-            mapRef.current ?.animateCamera(
-                {
-                    center: {
-                        latitude: parseFloat(rooms[currentIndex].lat),
-                        longitude: parseFloat(rooms[currentIndex].lng)
-                    }
-                },
-                { duration: 3000 }
-            );
-        }
-    }, [currentIndex]);
-
-    return (
+export default ({
+    rooms,
+    pos,
+    mapRef,
+    currentIndex,
+    onScroll,
+    onRegionChangeComplete
+}) => (
         <Container>
             <MapView
                 ref={mapRef}
+                onRegionChangeComplete={onRegionChangeComplete}
                 style={StyleSheet.absoluteFill}
                 camera={{
                     center: {
-                        latitude: parseFloat(rooms[0].lat),
-                        longitude: parseFloat(rooms[0].lng)
+                        latitude: parseFloat(rooms[0] ? rooms[0].lat : pos.lat),
+                        longitude: parseFloat(rooms[0] ? rooms[0].lng : pos.long)
                     },
                     altitude: 2000,
                     pitch: 0,
@@ -134,7 +115,6 @@ const Map = ({ rooms }) => {
                             latitude: parseFloat(room.lat),
                             longitude: parseFloat(room.lng)
                         }}
-
                     >
                         <RoomMarker selected={index === currentIndex} price={room.price} />
                     </Marker>
@@ -154,8 +134,8 @@ const Map = ({ rooms }) => {
                                 source={
                                     room.photos[0] ?.file
                                         ? { uri: room.photos[0] ?.file }
-                                        : require("../../assets/roomDefault.jpg")
-                }
+                                        : require("../../../assets/roomDefault.jpg")
+              }
                             />
                             <Column>
                                 <RoomName>{room.name}</RoomName>
@@ -167,10 +147,3 @@ const Map = ({ rooms }) => {
             </ScrollView>
         </Container>
     );
-};
-
-function mapStateToProps(state) {
-    return { rooms: state.roomsReducer.explore.rooms };
-}
-
-export default connect(mapStateToProps)(Map);
