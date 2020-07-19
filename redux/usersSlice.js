@@ -13,6 +13,9 @@ const userSlice = createSlice({
             state.isLoggedIn = true;
             state.token = action.payload.token;
             state.id = action.payload.id;
+            state.firstName = action.payload.firstName;
+            state.lastName = action.payload.lastName;
+            state.email = action.payload.email;
         },
         logOut(state, action) {
             state.isLoggedIn = false;
@@ -26,13 +29,21 @@ export const { logIn, logOut } = userSlice.actions;
 export const userLogin = form => async dispatch => {
     try {
         const {
-            data: { id, token }
+            data: { id, token, firstName, lastName, email }
         } = await api.login(form);
         if (id && token) {
-            dispatch(logIn({ token, id }));
+            dispatch(logIn({ id, token, firstName, lastName, email }));
         }
     } catch (e) {
-        alert("Wrong user/password");
+        alert("Wrong user/password", e);
+    }
+};
+
+export const userLogout = form => async dispatch => {
+    try {
+        dispatch(logOut({}));
+    } catch (e) {
+        alert("error");
     }
 };
 
